@@ -1,0 +1,25 @@
+﻿# Maven
+target/
+*.class
+*.jar
+
+# NetBeans
+.nbproject/
+nbactions.xml
+nb-configuration.xml
+src.zip
+
+# IDE
+.idea/
+*.iml
+.settings/
+.project
+.classpath
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Other
+LICENSE
+api.yaml
