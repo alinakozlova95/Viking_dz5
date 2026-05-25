@@ -20,7 +20,6 @@ public class VikingService {
         this.vikingFactory = vikingFactory;
     }
 
-  
     public void setVikingListener(VikingListener vikingListener) {
         this.vikingListener = vikingListener;
     }
@@ -39,20 +38,16 @@ public class VikingService {
                 viking.beardStyle(),
                 viking.equipment()
         );
-
         storage.put(withId.id(), withId);
-
         
         if (vikingListener != null) {
             vikingListener.onVikingCreated(withId);
         }
-
         return withId;
     }
 
     public Viking createRandomViking() {
         Viking v = vikingFactory.createRandomViking();
-
         Viking withId = new Viking(
                 nextId++,
                 v.name(),
@@ -62,24 +57,19 @@ public class VikingService {
                 v.beardStyle(),
                 v.equipment()
         );
-
         storage.put(withId.id(), withId);
-
         
         if (vikingListener != null) {
             vikingListener.onVikingCreated(withId);
         }
-
         return withId;
     }
 
     public boolean deleteViking(int id) {
         boolean removed = storage.remove(id) != null;
-
         if (removed && vikingListener != null) {
             vikingListener.onVikingDeleted(id);
         }
-
         return removed;
     }
 
@@ -93,13 +83,11 @@ public class VikingService {
                 viking.beardStyle(),
                 viking.equipment()
         );
-
         storage.put(id, updated);
-
+        
         if (vikingListener != null) {
             vikingListener.onVikingUpdated(updated);
         }
-
         return updated;
     }
     

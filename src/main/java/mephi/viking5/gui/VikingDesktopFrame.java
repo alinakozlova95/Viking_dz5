@@ -57,8 +57,9 @@ public class VikingDesktopFrame extends JFrame {
     }
     
     private void onCreateViking() {
-        vikingService.createRandomViking();
+        vikingService.createRandomViking();  
     }
+    
     public void removeViking(int id){
         tableModel.removeViking(id);
     }
@@ -77,13 +78,10 @@ public class VikingDesktopFrame extends JFrame {
     }
     
     private void onMassCreateVikings() {
-    List<Viking> newVikings = vikingService.generateMultipleRandom(10);
-    for (Viking v : newVikings) {
-        tableModel.addViking(v);  
+        List<Viking> newVikings = vikingService.generateMultipleRandom(10);
+        JOptionPane.showMessageDialog(this, 
+            "Added " + newVikings.size() + " vikings!", 
+            "Mass generation", 
+            JOptionPane.INFORMATION_MESSAGE);
     }
-    JOptionPane.showMessageDialog(this, 
-        "Added " + newVikings.size() + " vikings!", 
-        "Mass generation", 
-        JOptionPane.INFORMATION_MESSAGE);
-}
 }

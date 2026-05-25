@@ -1,9 +1,7 @@
 package mephi.viking5.gui;
-
 import mephi.viking5.model.BeardStyle;
 import mephi.viking5.model.HairColor;
 import mephi.viking5.service.VikingStatisticsService;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -66,10 +64,8 @@ public class StatisticsFrame extends JFrame {
         panel.add(random);
 
         JPanel ids = createGroup("ID");
-
-        addBtn(ids, "Max ID", () ->
-                outputArea.append("Max ID: " + statsService.maxId() + "\n"));
-
+        
+        addBtn(ids, "Max ID", this::showMaxId);
         addBtn(ids, "Чётные ID", this::showEvenIds);
 
         panel.add(ids);
@@ -88,7 +84,6 @@ public class StatisticsFrame extends JFrame {
         JButton btn = new JButton(text);
         btn.setMaximumSize(new Dimension(200, 30));
         btn.addActionListener(e -> action.run());
-
         panel.add(btn);
         panel.add(Box.createRigidArea(new Dimension(0, 5)));
     }
@@ -97,23 +92,16 @@ public class StatisticsFrame extends JFrame {
         outputArea.append(label + ": " + value + "\n");
     }
 
-
     private void showLegendary() {
         var list = statsService.legendaryEquipment();
-
         outputArea.append("Легендарное снаряжение: " + list.size() + "\n");
-
-        list.forEach(v ->
-                outputArea.append("  " + v.name() + "\n"));
+        list.forEach(v -> outputArea.append("  " + v.name() + "\n"));
     }
 
     private void showRedBearded() {
         var list = statsService.redBeardedSortedByAge();
-
         outputArea.append("Рыжебородые (по возрасту):\n");
-
-        list.forEach(v ->
-                outputArea.append("  " + v.name() + " (" + v.age() + ")\n"));
+        list.forEach(v -> outputArea.append("  " + v.name() + " (" + v.age() + ")\n"));
     }
 
     private void showRandomTall() {
@@ -124,13 +112,19 @@ public class StatisticsFrame extends JFrame {
                 );
     }
 
-    private void showEvenIds() {
-        outputArea.append("Чётные ID: ");
+    private void showMaxId() {
+        int[] ids = statsService.getIdsArray();      
+        int maxId = statsService.findMaxId(ids);    
+        outputArea.append("Max ID: " + maxId + "\n");
+    }
 
-        for (int id : statsService.evenIds()) {
+    private void showEvenIds() {
+        int[] ids = statsService.getIdsArray();      
+        int[] evenIds = statsService.findEvenIds(ids); 
+        outputArea.append("Чётные ID: ");
+        for (int id : evenIds) {
             outputArea.append(id + " ");
         }
-
         outputArea.append("\n");
     }
 }

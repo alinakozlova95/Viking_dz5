@@ -1,7 +1,6 @@
 package mephi.viking5.service;
 import mephi.viking5.model.*;
 import org.springframework.stereotype.Component;
-import java.util.List;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -18,6 +17,7 @@ public class VikingStatisticsService {
     private List<Viking> vikings() {
         return vikingService.findAll();
     }
+    
     
     public long countAgeGreaterThan(int age) {
         return vikings().stream()
@@ -60,19 +60,11 @@ public class VikingStatisticsService {
                 .count();
     }
 
-    public List<Viking> redBeardedSortedByAge() {
-        return vikings().stream()
-                .filter(v -> v.hairColor() == HairColor.Red)
-                .filter(v -> v.beardStyle() != BeardStyle.CLEAN_SHAVEN)
-                .sorted(Comparator.comparingInt(Viking::age))
-                .collect(Collectors.toList());
-    }
-
+    
     public Optional<Viking> randomTallViking() {
         List<Viking> tall = vikings().stream()
                 .filter(v -> v.heightCm() > 180)
                 .toList();
-
         if (tall.isEmpty()) return Optional.empty();
         return Optional.of(tall.get(random.nextInt(tall.size())));
     }
@@ -84,16 +76,29 @@ public class VikingStatisticsService {
                 .toList();
     }
 
-    public int maxId() {
+    public List<Viking> redBeardedSortedByAge() {
+        return vikings().stream()
+                .filter(v -> v.hairColor() == HairColor.Red)
+                .filter(v -> v.beardStyle() != BeardStyle.CLEAN_SHAVEN)
+                .sorted(Comparator.comparingInt(Viking::age))
+                .collect(Collectors.toList());
+    }
+
+    public int[] getIdsArray() {
         return vikings().stream()
                 .mapToInt(Viking::id)
+                .toArray();
+    }
+    
+
+    public int findMaxId(int[] ids) {
+        return Arrays.stream(ids)
                 .max()
                 .orElse(-1);
     }
-
-    public int[] evenIds() {
-        return vikings().stream()
-                .mapToInt(Viking::id)
+    
+    public int[] findEvenIds(int[] ids) {
+        return Arrays.stream(ids)
                 .filter(id -> id % 2 == 0)
                 .toArray();
     }
